@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.22)
 
 # vcpkg settings must be set before project()
@@ -20,19 +21,12 @@ set(_VCPKG_INSTALLED_DIR
 
 project(grpc-interceptor-example VERSION 0.1.0)
 
-find_package(gRPC CONFIG REQUIRED)
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include(CTest)
-enable_testing()
-
-add_executable(grpc-interceptor-example main.cpp)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_reflection)
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+#add_subdirectory(client)
+add_subdirectory(server)
+add_subdirectory(pb)

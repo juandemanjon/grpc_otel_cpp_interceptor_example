@@ -4,15 +4,34 @@
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
 
+#include "demo.grpc.pb.h"
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
 
+// Logic and data behind the server's behavior.
+class DemoServiceImpl final : public hipstershop::CartService::Service {
+  public:
+    virtual ::grpc::Status AddItem(::grpc::ServerContext* context, const ::hipstershop::AddItemRequest* request, ::hipstershop::Empty* response)
+    {
+      return ::grpc::Status(::grpc::StatusCode::OK, "");
+    }
+    virtual ::grpc::Status GetCart(::grpc::ServerContext* context, const ::hipstershop::GetCartRequest* request, ::hipstershop::Cart* response)
+    {
+      return ::grpc::Status(::grpc::StatusCode::OK, "");
+    }
+    virtual ::grpc::Status EmptyCart(::grpc::ServerContext* context, const ::hipstershop::EmptyCartRequest* request, ::hipstershop::Empty* response)
+    {
+      return ::grpc::Status(::grpc::StatusCode::OK, "");
+    }
+};
+
 void RunServer() {
   std::string server_address("0.0.0.0:50051");
   
-  //GreeterServiceImpl service;
+  DemoServiceImpl service;
 
   grpc::EnableDefaultHealthCheckService(true);
   grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -21,7 +40,7 @@ void RunServer() {
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
   // Register "service" as the instance through which we'll communicate with
   // clients. In this case it corresponds to an *synchronous* service.
-  // builder.RegisterService(&service);
+  builder.RegisterService(&service);
   // Finally assemble the server.
   std::unique_ptr<Server> server(builder.BuildAndStart());
   std::cout << "Server listening on " << server_address << std::endl;
