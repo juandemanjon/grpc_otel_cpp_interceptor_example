@@ -4,13 +4,7 @@
     "dependencies": [
         "catch2",
          "grpc",
-         "fmt",
-        {
-            "name": "opentelemetry-cpp",
-            "features": [
-                "otlp"
-            ]
-        }
+         "fmt"
 
     ]
 }
