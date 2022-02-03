@@ -1,5 +1,5 @@
 tasks:
   - init: >
-      git submodule foreach git pull
+      git submodule foreach git submodule update --init
       && vcpkg/bootstrap-vcpkg.sh -disableMetrics
 #     && vcpkg/vcpkg install --feature-flags=manifests 
