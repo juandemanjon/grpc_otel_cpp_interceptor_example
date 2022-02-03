@@ -1,7 +1,5 @@
-# image: acgetchell/vcpkg-image
-
-# tasks:
-#   - init: >
-#       vcpkg install --feature-flags=manifests 
-#       && cd scripts
-#       && ./fast-build.sh
+tasks:
+  - init: >
+      git submodule foreach git pull
+      vcpkg/bootstrap-vcpkg.sh -disableMetrics
+#      vcpkg install --feature-flags=manifests 
