@@ -20,6 +20,7 @@ class DemoServiceImpl final : public hipstershop::CartService::Service {
     }
     virtual ::grpc::Status GetCart(::grpc::ServerContext* context, const ::hipstershop::GetCartRequest* request, ::hipstershop::Cart* response)
     {
+      response->set_user_id("foo-bar");
       return ::grpc::Status(::grpc::StatusCode::OK, "");
     }
     virtual ::grpc::Status EmptyCart(::grpc::ServerContext* context, const ::hipstershop::EmptyCartRequest* request, ::hipstershop::Empty* response)

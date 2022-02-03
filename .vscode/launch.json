@@ -8,7 +8,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/build/grpc-interceptor-example",
+            "linux": {
+                "program": "${workspaceFolder}/build/server/grpc-interceptor-example"
+            },
             "args": [],
             "cwd": "${workspaceFolder}"
         }
