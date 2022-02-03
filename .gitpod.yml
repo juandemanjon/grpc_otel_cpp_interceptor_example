@@ -1,5 +1,7 @@
-image: acgetchell/vcpkg-image
+# image: acgetchell/vcpkg-image
 
-tasks:
-  - init: >
-      vcpkg install --feature-flags=manifests
+# tasks:
+#   - init: >
+#       vcpkg install --feature-flags=manifests 
+#       && cd scripts
+#       && ./fast-build.sh
