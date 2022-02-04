@@ -21,7 +21,7 @@
             "name": "Debug (Windows)",
             "request": "launch",
             "windows":{
-                "program": "${workspaceFolder}/build/server/grpc-interceptor-example.exe"
+                "program": "${workspaceFolder}/build/server/Debug/grpc-interceptor-example.exe"
             },
             "args": [],
             "stopAtEntry": false,

@@ -29,6 +29,31 @@ class DemoServiceImpl final : public hipstershop::CartService::Service {
     }
 };
 
+class SpanInterceptor : public grpc::experimental::Interceptor {
+
+public:
+  SpanInterceptor(grpc::experimental::ServerRpcInfo *info) : info_(info) { ; }
+
+  void Intercept(grpc::experimental::InterceptorBatchMethods *methods) override
+  {
+    methods->Proceed();
+  }
+
+private:
+    grpc::experimental::ServerRpcInfo* info_;
+};
+
+class SpanInterceptorFactory : public grpc::experimental::ServerInterceptorFactoryInterface
+{
+  public:
+	SpanInterceptorFactory() {}
+	grpc::experimental::Interceptor *CreateServerInterceptor(
+		grpc::experimental::ServerRpcInfo *info) override
+    {
+      return new SpanInterceptor(info);
+    }
+};
+
 void RunServer() {
   std::string server_address("0.0.0.0:50051");
   
@@ -42,6 +67,13 @@ void RunServer() {
   // Register "service" as the instance through which we'll communicate with
   // clients. In this case it corresponds to an *synchronous* service.
   builder.RegisterService(&service);
+
+  std::vector<std::unique_ptr<grpc::experimental::ServerInterceptorFactoryInterface>> creators;
+  creators.push_back(std::unique_ptr<grpc::experimental::ServerInterceptorFactoryInterface>(
+                new SpanInterceptorFactory()));
+
+  builder.experimental().SetInterceptorCreators(std::move(creators));
+
   // Finally assemble the server.
   std::unique_ptr<Server> server(builder.BuildAndStart());
   std::cout << "Server listening on " << server_address << std::endl;
